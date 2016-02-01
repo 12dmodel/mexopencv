@@ -1,4 +1,4 @@
-MATLABDIR   ?= /usr/local/matlab
+MATLABDIR   ?= /afs/csail.mit.edu/system/amd64_linux26/matlab/latest/
 MEX         ?= $(MATLABDIR)/bin/mex
 MATLAB      ?= $(MATLABDIR)/bin/matlab
 MEXEXT      ?= $(shell $(MATLABDIR)/bin/mexext)
