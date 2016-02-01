@@ -26,9 +26,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     vector<MxArray> rhs(prhs,prhs+nrhs);
     
     // Option processing
-    Mat img = rhs[0].toMat();
-    Point center = rhs[1].toPoint();
-    int radius = rhs[2].toInt();
+    Mat img = rhs[0].toMat();    int radius = rhs[2].toInt();
     Scalar color;
     int thickness=1;
     int lineType=8;
@@ -47,8 +45,20 @@ void mexFunction( int nlhs, mxArray *plhs[],
         else
             mexErrMsgIdAndTxt("mexopencv:error","Unrecognized option");
     }
-    
-    // Execute function
-    circle(img, center, radius, color, thickness, lineType, shift);
+
+
+    if (rhs[1].cols() != 2) 
+        mexErrMsgIdAndTxt("mexopencv:error","Points should be two columns matrix");
+
+    mwSize ii = rhs[1].rows();
+    for (mwSize i = 0; 
+        i < rhs[1].rows(); 
+        i = i + 1, ii = ii + 1) 
+    {
+        // indexing must have been row-major
+        Point center = Point(rhs[1].at<int>(i), rhs[1].at<int>(ii));
+        // Execute function
+        circle(img, center, radius, color, thickness, lineType, shift);
+    }
     plhs[0] = MxArray(img);
 }
